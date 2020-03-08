@@ -131,3 +131,22 @@ def joint_difference_distribution(gray_img, gc, x, y, interpolation_function):
 
 # #testing
 # print("The joint difference distribution is:\n", joint_difference_distribution(img_gray, (x0, y0), x, y, f))
+
+'''
+local binary pattern operator
+
+LBP operator is by definition invariant against any monotonic transformation of the gray scale. 
+'''
+def binary_joint_distribution(gray_img, gc, x, y, interpolation_function):
+    T=joint_difference_distribution(gray_img, gc, x, y, interpolation_function)
+    return np.where(T>=0, 1, 0)
+    
+def LBP(gray_img, gc, x, y, interpolation_function):
+    s=binary_joint_distribution(gray_img, gc, x, y, interpolation_function)
+    p=np.arange(0, P)
+    binomial_factor=2**p
+    return np.sum(binomial_factor*s)
+
+# #testing
+# print('The binary joint distribution is:\n', binary_joint_distribution(img_gray, (x0, y0), x, y, f))
+# print('LBP:\n', LBP(img_gray, (x0, y0), x, y, f))
