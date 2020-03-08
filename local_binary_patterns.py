@@ -12,7 +12,7 @@ def plot_neighbourhood(x, y, P, R):
     plt.axis('square')
     plt.grid(True)
     plt.title('Circle with P={p} and R={r}'.format(p=P, r=R))
-    plt.xticks(np.arange(-2, 3, 1,0))
+    plt.xticks(np.arange(-2, 3, 1.0))
     plt.yticks(np.arange(-2, 3, 1.0))
     plt.show()
 
@@ -51,3 +51,30 @@ def create_index(s_T):
 # plt.show()
 # plt.imshow(img_gray)
 # plt.show()
+
+'''
+local binary patterns
+
+local binary patterns is a theoretically simple, yet efficient approach \
+to gray scale and rotation invariant textur classification. \
+'''
+
+'''
+circularly symmetrical neighbor set
+
+a circularly symmetric neighbor set for a given pixel g_c is defined \
+by the points with coordinates (i, j) that surround the central point \
+on a circle of radius R, and number of elements P.
+'''
+def neighbourhood(P, R):
+    x=np.arange(0, P)
+    x=R*np.cos(2*np.pi*x/P)
+    y=np.arange(0, P)
+    y=-R*np.sin(2*np.pi*y/P)
+    return x, y
+
+# #testing
+# R=2
+# P=8
+# x,y=neighbourhood(P, R)
+# plot_neighbourhood(x, y, P, R)
