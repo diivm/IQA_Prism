@@ -78,3 +78,38 @@ def neighbourhood(P, R):
 # P=8
 # x,y=neighbourhood(P, R)
 # plot_neighbourhood(x, y, P, R)
+
+'''
+texture
+
+it is the collection of pixels in a gray scale image
+'''
+
+'''
+interpolation
+
+when a neighbor is not located in the center of a pixel, that \
+neighbor gray value should be calculated by interpolation. \
+'''
+def interpolate2d(gray_img, kind='cubic'):
+    #should be a 2d image,checking
+    assert gray_img.ndim==2
+    h, w=gray_img.shape
+
+    x=np.arange(0, w)
+    y=np.arange(0, h)
+
+    return interpolate.interp2d(x, y, gray_img, kind=kind)
+
+def calculate_neighborhood_values(x, y, interpolation_function):
+    gray_values=map(lambda pt: interpolation_function(*pt), zip(x, y))
+    return np.fromiter(gray_values, float)
+
+# #testing
+# x0=400
+# y0=400
+# xp=x+x0
+# yp=y+y0
+# f=interpolate2d(img_gray, kind='cubic')
+# print("\nNeighborhood gray values:\n", img_gray[y0-R: y0+R+1, x0-R: x0+R+1])
+# print("\nNeighborhood interpolations:\n", calculate_neighborhood_values(xp, yp, f))
