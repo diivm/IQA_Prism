@@ -205,5 +205,34 @@ for j in range(h):
         LBP_image[j, i]=LBP_uniform(img_gray, (i, j), x, y, f, u_patterns)
 print('The LBP image is:', LBP_image)
 
+# plt.hist(LBP_image.ravel())
+# plt.show()
+
+'''
+compare with a similar image
+'''
+img2=load_image("resources/gray_bricks.jpg", False)
+img2=skimage.transform.rescale(img2, scale=(1/2, 1/2), anti_aliasing=True, mode='reflect', multichannel=True)
+img_gray2=skimage.color.rgb2gray(img2)
+
+x2,y2=neighbourhood(P, R)
+
+f2=interpolate2d(img_gray2, kind='cubic')
+
+h2, w2=img_gray2.shape
+
+LBP_image2=np.zeros((h2, w2))
+for j2 in range(h2):
+    for i2 in range(w2):
+        LBP_image2[j2, i2]=LBP_uniform(img_gray2, (i2, j2), x2, y2, f2, u_patterns)
+print('The LBP image is:', LBP_image2)
+
+plt.subplot(121)
 plt.hist(LBP_image.ravel())
+plt.title('Orange Bricks')
+plt.grid(True)
+plt.subplot(122)
+plt.hist(LBP_image2.ravel())
+plt.title('Gray Bricks')
+plt.grid(True)
 plt.show()
