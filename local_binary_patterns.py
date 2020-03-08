@@ -150,3 +150,33 @@ def LBP(gray_img, gc, x, y, interpolation_function):
 # #testing
 # print('The binary joint distribution is:\n', binary_joint_distribution(img_gray, (x0, y0), x, y, f))
 # print('LBP:\n', LBP(img_gray, (x0, y0), x, y, f))
+
+'''
+uniform local binary patterns
+
+LBP is not a good discriminator. \
+use a set of local binary patterns such that no of spatial transitions \
+does not exceed 2. \
+to each uniform pattern, a unique index is associated.
+'''
+def is_uniform(pattern):
+    count=0
+    for idx in range(len(pattern)-1):
+        count+=pattern[idx]^pattern[idx+1]
+        return ~(count>2)
+
+def uniform_patterns(P):
+    patterns=itertools.product([0, 1], repeat=P)
+    u_patterns=[pattern for pattern in patterns if is_uniform(pattern)]
+    return [''.join(str(ele) for ele in eles) for eles in u_patterns]
+
+def LBP_uniform(gray_img, gc, x, y, interpolation_function, uniform_patterns):
+    s=binary_joint_distribution(gray_img, gc, x, y, interpolation_function)
+    pattern=''.join([str(ele) for ele in s])
+    return create_index(s) if pattern in uniform_patterns else 2+P*(P-1)
+
+# #testing
+# u_patterns=uniform_patterns(P)
+# s_T = binary_joint_distribution(img_gray, (x0, y0), x, y, f)
+# print('Is {} a uniform pattern: {}\n'.format(s_T, is_uniform(s_T)))
+# print('LBP_uniform:', LBP_uniform(img_gray, (x0, y0), x, y, f, u_patterns))
