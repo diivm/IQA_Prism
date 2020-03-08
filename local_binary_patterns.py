@@ -113,3 +113,21 @@ def calculate_neighborhood_values(x, y, interpolation_function):
 # f=interpolate2d(img_gray, kind='cubic')
 # print("\nNeighborhood gray values:\n", img_gray[y0-R: y0+R+1, x0-R: x0+R+1])
 # print("\nNeighborhood interpolations:\n", calculate_neighborhood_values(xp, yp, f))
+
+'''
+joint difference distribution
+
+used to turn texture into joint difference. \
+to calculate it, subtract the gray value of the central pixel to all neighbor set. \
+the joint difference distribution is a highly discriminative texture operator.
+'''
+def joint_difference_distribution(gray_img, gc, x, y, interpolation_function):
+    xc, yc=gc
+    xp=xc+x
+    yp=yc+y
+    g_p=calculate_neighborhood_values(xp, yp, interpolation_function)
+    g_c=interpolation_function(xc, yc)
+    return np.round(g_p-g_c, 15)
+
+# #testing
+# print("The joint difference distribution is:\n", joint_difference_distribution(img_gray, (x0, y0), x, y, f))
