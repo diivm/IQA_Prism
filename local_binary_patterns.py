@@ -180,3 +180,30 @@ def LBP_uniform(gray_img, gc, x, y, interpolation_function, uniform_patterns):
 # s_T = binary_joint_distribution(img_gray, (x0, y0), x, y, f)
 # print('Is {} a uniform pattern: {}\n'.format(s_T, is_uniform(s_T)))
 # print('LBP_uniform:', LBP_uniform(img_gray, (x0, y0), x, y, f, u_patterns))
+
+'''
+plotting the histogram of the result
+'''
+img=load_image("resources/red_bricks.jpg", False)
+img=skimage.transform.rescale(img, scale=(1/2, 1/2), anti_aliasing=True, mode='reflect', multichannel=True)
+img_gray=skimage.color.rgb2gray(img)
+
+R=2
+P=8
+
+x,y=neighbourhood(P, R)
+
+f=interpolate2d(img_gray, kind='cubic')
+
+h, w=img_gray.shape
+
+u_patterns=uniform_patterns(P)
+
+LBP_image=np.zeros((h, w))
+for j in range(h):
+    for i in range(w):
+        LBP_image[j, i]=LBP_uniform(img_gray, (i, j), x, y, f, u_patterns)
+print('The LBP image is:', LBP_image)
+
+plt.hist(LBP_image.ravel())
+plt.show()
