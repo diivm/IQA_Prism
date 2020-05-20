@@ -1,6 +1,4 @@
 {
-  "train_env": "TID2013",
-  "docker_image": "nima-cpu",
   "base_model_name": "MobileNet",
   "existing_weights": null,
   "n_classes": 10,
